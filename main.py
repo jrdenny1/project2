@@ -1,5 +1,6 @@
 """
-Entry point for the Help Desk Ticket Tracker application.
+Main file for project 2
+This launches the PyQt GUI and shows the main window.
 """
 from PyQt6 import QtWidgets
 from logic import TicketWindow
