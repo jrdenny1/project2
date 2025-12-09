@@ -24,6 +24,7 @@ class TicketWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def _configure_status_label(self) -> None:
         """
         Configure the status label appearance.
+        Default is empty and shows messages in red so errors are easy to spot.
         """
         palette = self.statusLabel.palette()
         palette.setColor(self.statusLabel.foregroundRole(), QtGui.QColor("red"))
@@ -53,9 +54,10 @@ class TicketWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         """
         Handle the Add Ticket button click.
 
-        Validates the input fields, appends the ticket to the CSV file if
-        everything is valid, refreshes the table, and shows either an error
-        message or a success message.
+        Validates the input fields.
+        Appends the ticket to the CSV file if everything is valid.
+        Refreshes the table.
+        Shows either an error message or a success message.
         """
         self.statusLabel.setText("")
 
@@ -87,6 +89,8 @@ class TicketWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def _get_selected_priority(self) -> str | None:
         """
         Returns the selected priority as a string, or None if nothing is selected.
+
+        :return: "Low", "Medium", "High", or none if no radio button is selected.
         """
         if self.priorityLowRadio.isChecked():
             return "Low"
@@ -106,6 +110,12 @@ class TicketWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         """
         Validate the ticket fields and return an error message if anything is wrong.
         Returns None if all fields are valid.
+
+        :param ticket_id: Ticket number from the text box.
+        :param user_name: Name of the user opening the ticket.
+        :param priority: Priority string, or None if nothing was selected.
+        :param description: Problem description from the text area.
+        :return: Error message string, or None if all fields are valid.
         """
         if not ticket_id:
             return "Please enter a ticket ID."
@@ -147,6 +157,7 @@ class TicketWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def _load_tickets_into_table(self) -> None:
         """
         Load all tickets from the CSV file and display them in the table widget.
+        Errors from data layer are shown in status label.
         """
         try:
             tickets = data_manager.load_tickets()

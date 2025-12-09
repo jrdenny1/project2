@@ -14,6 +14,9 @@ def append_ticket(ticket: Ticket) -> None:
     """
     Append a ticket to the CSV file.
     If the file doesnt exist, the function will create it and write a header row.
+
+    :param ticket: Ticket to append to persistent storage.
+    :raises RuntimeError: If the file cannot be opened or written.
     """
     file_exists = os.path.exists(TICKETS_FILE)
 
